@@ -81,7 +81,7 @@ Before pushing:
 
 ## Maintenance Notes
 
-### Current Version: 2.0.1
+### Current Version: 2.0.2
 
 **Features:**
 - 14 skills (7 original + 7 SOTA 2026)
