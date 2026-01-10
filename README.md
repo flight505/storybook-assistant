@@ -8,7 +8,7 @@
 
 **SOTA 2026 Storybook assistant with Vision AI design-to-code, natural language generation, AI-powered accessibility remediation, React Server Components, dark mode generation, and comprehensive testing (Storybook 9, React 19, Next.js 15).**
 
-[![Version](https://img.shields.io/badge/version-2.0.4-blue.svg)](https://github.com/flight505/storybook-assistant-plugin)
+[![Version](https://img.shields.io/badge/version-2.0.5-blue.svg)](https://github.com/flight505/storybook-assistant-plugin)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Storybook](https://img.shields.io/badge/Storybook-9.0+-FF4785.svg)](https://storybook.js.org/)
 [![React](https://img.shields.io/badge/React-19-61DAFB.svg)](https://react.dev/)
@@ -61,13 +61,37 @@
 
 ### Installation
 
+**Method 1: Via Claude Code CLI (Recommended)**
 ```bash
-# Clone or install via Claude Code plugin marketplace
-# (Installation instructions depend on how Claude Code plugins are distributed)
+claude
 
-# Verify installation
-# Plugin will automatically check environment on SessionStart
+# In Claude prompt:
+/plugin
+
+# When prompted, enter:
+flight505/storybook-assistant-plugin
 ```
+
+**Method 2: Manual Clone**
+```bash
+# Clone to Claude plugins directory
+git clone https://github.com/flight505/storybook-assistant-plugin.git ~/.claude/plugins/storybook-assistant
+
+# Start Claude normally - plugin auto-loads
+claude
+```
+
+**Method 3: Project-Specific**
+```bash
+# In your project directory
+git clone https://github.com/flight505/storybook-assistant-plugin.git
+
+# Start Claude with plugin
+claude --plugin-dir ./storybook-assistant-plugin
+```
+
+**Verify installation:**
+Plugin will automatically check environment on SessionStart
 
 ### Usage
 
