@@ -1,0 +1,24 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "storybook-assistant-marketplace",
+  "version": "2.0.4",
+  "description": "SOTA 2026 Storybook Assistant Plugin for Claude Code",
+  "owner": {
+    "name": "Jesper Vang",
+    "email": "jesper@example.com",
+    "url": "https://github.com/flight505"
+  },
+  "plugins": [
+    {
+      "name": "storybook-assistant",
+      "description": "SOTA 2026 Storybook assistant with Vision AI design-to-code, natural language generation, AI-powered accessibility remediation, React Server Components, dark mode generation, and comprehensive testing",
+      "version": "2.0.4",
+      "author": {
+        "name": "Jesper Vang",
+        "url": "https://github.com/flight505"
+      },
+      "source": ".",
+      "category": "development"
+    }
+  ]
+}
