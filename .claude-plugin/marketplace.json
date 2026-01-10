@@ -1,23 +1,20 @@
 {
-  "display_name": "Storybook Assistant",
-  "tagline": "SOTA 2026 Storybook assistant with Vision AI, natural language generation & AI accessibility",
-  "icon": "🎨",
-  "category": "Development Tools",
-  "tags": ["storybook", "storybook-9", "react-19", "nextjs-15", "vision-ai", "natural-language", "accessibility", "wcag", "server-components", "component-testing", "ui-development", "dark-mode", "ai-powered"],
-  "screenshots": [],
-  "demo_video": null,
-  "long_description": "SOTA 2026 Storybook assistant with cutting-edge AI-powered features:\n\n🚀 **Vision AI Design-to-Code** (Flagship): Transform screenshots → pixel-perfect components\n🎯 **Natural Language Generation**: Describe in English → production-ready code\n♿ **AI Accessibility Remediation**: WCAG 2.2 compliance with one-click fixes (not just detection)\n⚛️ **React 19 & Next.js 15**: Server Components, Suspense, Server Actions, PPR\n🌙 **Dark Mode Auto-Generation**: Intelligent color transformation with contrast preservation\n⚡ **Performance Analysis**: AI-powered bundle optimization suggestions\n🔧 **CI/CD Pipeline Generator**: Production-ready workflows in minutes\n\n✅ Auto-configured Storybook 9 with framework detection\n✅ Story generation with interaction & accessibility tests\n✅ Component scaffolding with SOTA patterns\n✅ Multi-platform support: Web (full), Tauri (full), Electron (partial)\n✅ Vitest + Playwright integration for real browser testing\n\nBuilt with SOTA 2026 best practices for modern AI-powered component development.",
-  "installation": {
-    "quick_start": "Run `/setup-storybook` in your project to get started",
-    "requirements": [
-      "Node.js 20+",
-      "npm 10+",
-      "CLAUDE_CODE_OAUTH_TOKEN or ANTHROPIC_API_KEY",
-      "OPENROUTER_API_KEY (optional, for visual generation)"
-    ]
+  "name": "storybook-assistant",
+  "metadata": {
+    "description": "SOTA 2026 Storybook assistant with Vision AI design-to-code, natural language generation, AI-powered accessibility remediation, React Server Components, dark mode generation, and comprehensive testing",
+    "version": "2.0.6",
+    "homepage": "https://github.com/flight505/storybook-assistant-plugin"
   },
-  "support": {
-    "documentation": "https://github.com/flight505/storybook-assistant-plugin/blob/main/README.md",
-    "issues": "https://github.com/flight505/storybook-assistant-plugin/issues"
-  }
+  "owner": {
+    "name": "Jesper Vang",
+    "email": "contact@flight505.dev"
+  },
+  "plugins": [
+    {
+      "name": "storybook-assistant",
+      "description": "SOTA 2026 Storybook assistant with Vision AI, natural language generation, AI accessibility remediation, and comprehensive testing for Storybook 9, React 19, Next.js 15",
+      "source": "./",
+      "strict": true
+    }
+  ]
 }
