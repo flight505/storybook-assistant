@@ -1,7 +1,7 @@
 {
   "name": "storybook-assistant",
-  "version": "2.0.7",
-  "description": "SOTA 2026 Storybook assistant with Vision AI design-to-code, natural language generation, AI-powered accessibility remediation, React Server Components, dark mode generation, and comprehensive testing (Storybook 9, React 19, Next.js 15)",
+  "version": "2.1.0",
+  "description": "Complete SOTA 2026 Storybook assistant with Vision AI design-to-code, natural language generation, AI-powered accessibility remediation, React Server Components, AI visual regression testing, design token sync, usage analytics, dark mode generation, and comprehensive testing (Storybook 9, React 19, Next.js 15)",
   "author": {
     "name": "Jesper Vang",
     "url": "https://github.com/flight505"
@@ -28,6 +28,10 @@
     "playwright",
     "tauri",
     "electron",
+    "visual-regression",
+    "design-tokens",
+    "figma-sync",
+    "component-analytics",
     "sota-2026"
   ],
   "commands": "./commands",
@@ -45,11 +49,30 @@
     "./skills/design-to-code",
     "./skills/dark-mode-generation",
     "./skills/performance-analysis",
-    "./skills/ci-cd-generator"
+    "./skills/ci-cd-generator",
+    "./skills/visual-regression-testing",
+    "./skills/design-token-sync",
+    "./skills/component-usage-analytics",
+    "./skills/plugin-guide"
   ],
   "agents": [
     "./agents/accessibility-auditor.md",
-    "./agents/component-generator.md"
+    "./agents/component-generator.md",
+    "./agents/visual-regression-analyzer.md"
+  ],
+  "commands": [
+    "/help",
+    "/setup-storybook",
+    "/generate-stories",
+    "/create-component",
+    "/design-to-code",
+    "/generate-from-description",
+    "/fix-accessibility",
+    "/generate-dark-mode",
+    "/setup-ci-cd",
+    "/setup-visual-testing",
+    "/sync-design-tokens",
+    "/analyze-usage"
   ],
   "hooks": ["SessionStart"],
   "requirements": {

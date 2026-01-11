@@ -81,12 +81,12 @@ Before pushing:
 
 ## Maintenance Notes
 
-### Current Version: 2.0.6
+### Current Version: 2.1.0
 
 **Features:**
-- 14 skills (7 original + 7 SOTA 2026)
-- 2 autonomous agents
-- 8 user commands
+- 18 skills (7 original + 10 SOTA 2026 + 1 help/guide)
+- 3 autonomous agents
+- 12 user commands (including /help)
 - Vision AI design-to-code
 - Natural language component generation
 - AI-powered accessibility remediation
