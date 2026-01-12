@@ -1,0 +1,84 @@
+name: Notify Marketplace on Version Bump
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.claude-plugin/plugin.json'
+      - 'plugins/*/\.claude-plugin/plugin.json'
+
+jobs:
+  notify-marketplace:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2  # Need previous commit to detect version changes
+
+      - name: Check if version changed
+        id: version-check
+        run: |
+          # Find plugin.json file(s)
+          PLUGIN_JSON=$(find . -name "plugin.json" -path "*/.claude-plugin/*" | head -1)
+
+          if [ -z "$PLUGIN_JSON" ]; then
+            echo "No plugin.json found"
+            exit 0
+          fi
+
+          # Get current version
+          CURRENT_VERSION=$(jq -r '.version' "$PLUGIN_JSON")
+
+          # Get previous version
+          PREV_VERSION=$(git show HEAD^:"$PLUGIN_JSON" 2>/dev/null | jq -r '.version' 2>/dev/null || echo "")
+
+          echo "current_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "previous_version=$PREV_VERSION" >> $GITHUB_OUTPUT
+
+          if [ "$CURRENT_VERSION" != "$PREV_VERSION" ] && [ -n "$PREV_VERSION" ]; then
+            echo "version_changed=true" >> $GITHUB_OUTPUT
+            echo "✅ Version changed: $PREV_VERSION → $CURRENT_VERSION"
+          else
+            echo "version_changed=false" >> $GITHUB_OUTPUT
+            echo "ℹ️  Version unchanged: $CURRENT_VERSION"
+          fi
+
+      - name: Trigger marketplace update
+        if: steps.version-check.outputs.version_changed == 'true'
+        run: |
+          PLUGIN_NAME="${GITHUB_REPOSITORY#*/}"  # Extract repo name
+          CURRENT_VERSION="${{ steps.version-check.outputs.current_version }}"
+          PREVIOUS_VERSION="${{ steps.version-check.outputs.previous_version }}"
+
+          echo "📦 Triggering marketplace update for $PLUGIN_NAME"
+          echo "   Version: $PREVIOUS_VERSION → $CURRENT_VERSION"
+
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.MARKETPLACE_UPDATE_TOKEN }}" \
+            https://api.github.com/repos/flight505/flight505-marketplace/dispatches \
+            -d "{
+              \"event_type\": \"plugin-updated\",
+              \"client_payload\": {
+                \"plugin\": \"$PLUGIN_NAME\",
+                \"version\": \"$CURRENT_VERSION\",
+                \"previous_version\": \"$PREVIOUS_VERSION\",
+                \"commit\": \"$GITHUB_SHA\",
+                \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
+              }
+            }"
+
+          if [ $? -eq 0 ]; then
+            echo "✅ Marketplace notification sent successfully"
+          else
+            echo "❌ Failed to notify marketplace"
+            exit 1
+          fi
+
+      - name: No notification needed
+        if: steps.version-check.outputs.version_changed == 'false'
+        run: |
+          echo "ℹ️  Skipping marketplace notification - version unchanged"
+          echo "   Current version: ${{ steps.version-check.outputs.current_version }}"
