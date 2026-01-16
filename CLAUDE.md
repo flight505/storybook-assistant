@@ -1,38 +1,19 @@
 # Storybook Assistant Plugin - Development Guidelines
 
-## Version Management
+## Version Management & Marketplace Sync
 
-**⚠️ CRITICAL: Always bump version before pushing to GitHub**
+**⚠️ CRITICAL: When committing version changes to `.claude-plugin/plugin.json`:**
 
-Before committing and pushing any changes to GitHub:
+1. **Bump version** following semantic versioning (MAJOR.MINOR.PATCH)
+2. **Commit & push** to trigger webhook: `git commit -m "chore: bump version to X.Y.Z" && git push`
+3. **Verify webhook** fired (5 sec): `gh run list --repo flight505/storybook-assistant --limit 1`
+   - Success: "✅ Marketplace notification sent successfully (HTTP 204)"
+   - Failed: See `../../docs/WEBHOOK-TROUBLESHOOTING.md`
+4. **Marketplace auto-syncs** within 30 seconds - no manual `marketplace.json` update needed
 
-1. **Update version in `.claude-plugin/plugin.json`**
-   - Follow semantic versioning (MAJOR.MINOR.PATCH)
-   - MAJOR: Breaking changes
-   - MINOR: New features (backwards compatible)
-   - PATCH: Bug fixes
+**Tip**: Use `../../scripts/bump-plugin-version.sh storybook-assistant X.Y.Z` to automate everything.
 
-2. **Update version badge in `README.md`**
-   - Change badge from `version-X.Y.Z` to new version
-
-3. **Document changes**
-   - Add entry to CHANGELOG.md (if exists)
-   - Update SOTA_IMPLEMENTATION_COMPLETE.md if adding features
-
-4. **Verify all files are consistent**
-   - plugin.json version
-   - README.md badge
-   - marketplace.json (if version mentioned)
-
-**Example workflow:**
-```bash
-# 1. Bump version in plugin.json (e.g., 2.0.0 → 2.1.0)
-# 2. Update README badge
-# 3. Commit and push
-git add .
-git commit -m "Bump version to 2.1.0: Added XYZ feature"
-git push
-```
+---
 
 ## Plugin Development Guidelines
 
