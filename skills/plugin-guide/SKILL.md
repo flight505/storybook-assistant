@@ -100,10 +100,6 @@ Keep Figma and code perfectly synchronized:
 - `/sync-design-tokens` - Figma sync
 - `/analyze-usage` - Component analytics
 
-### Help
-- `/help` - Show detailed help (you're here!)
-- `/help [feature]` - Get help for specific feature
-
 ---
 
 ## 💡 Common Workflows
@@ -138,9 +134,9 @@ I understand natural language and will use the right tools automatically.
 
 ---
 
-**Want detailed help?** Type `/help` or `/help [feature-name]`
 **Getting started?** Try `/setup-storybook` first
 **Have a screenshot?** Try `/design-to-code`
+**Want more details?** Just ask about any specific feature!
 ```
 
 ### For Specific Feature Questions
