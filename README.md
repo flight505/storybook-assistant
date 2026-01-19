@@ -8,7 +8,7 @@
 
 **Complete SOTA 2026 Storybook assistant with Vision AI design-to-code, natural language generation, AI-powered accessibility remediation, React Server Components, AI visual regression testing, design token sync, usage analytics, dark mode generation, and comprehensive testing (Storybook 9, React 19, Next.js 15).**
 
-[![Version](https://img.shields.io/badge/version-2.1.5-blue.svg)](https://github.com/flight505/storybook-assistant-plugin)
+[![Version](https://img.shields.io/badge/version-2.1.6-blue.svg)](https://github.com/flight505/storybook-assistant-plugin)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Storybook](https://img.shields.io/badge/Storybook-9.0+-FF4785.svg)](https://storybook.js.org/)
 [![React](https://img.shields.io/badge/React-19-61DAFB.svg)](https://react.dev/)
@@ -16,7 +16,7 @@
 
 ---
 
-> **🚀 First time here?** Start with the [ELI5 section](#-eli5-what-does-this-plugin-do) for a quick overview, then check [How to Use](#-how-to-use-after-installation) to get started, or ask "What can you do?" to see all available features!
+> **🚀 First time here?** Start with the [ELI5 section](#-eli5-what-does-this-plugin-do) for a quick overview, then check [How to Use](#-how-to-use-after-installation) to get started, or ask "What can the Storybook Assistant do?" to see all available features!
 
 ---
 
@@ -111,10 +111,11 @@ claude
 
 ### 2. **Discover Features**
 ```bash
-# Ask what the plugin can do
-"What can you do?"
-"Show me available features"
-"What commands are available?"
+# Ask what the Storybook Assistant can do
+"What can the Storybook Assistant do?"
+"Show me Storybook plugin features"
+"What Storybook commands are available?"
+"Help with Storybook Assistant"
 ```
 
 ### 3. **Use Commands** - Type any command starting with `/`
@@ -165,7 +166,7 @@ cd my-react-app
 claude
 
 # 2. See what's available
-"What commands are available?"
+"What Storybook commands are available?"
 
 # 3. Set up Storybook
 /setup-storybook

@@ -1,31 +1,41 @@
 ---
 name: Plugin Guide & Help
-description: Use this skill when users ask "what can you do", "show features", "help", "list commands", "plugin capabilities", "how to use", or want to discover available Storybook Assistant features and commands. Provides comprehensive plugin documentation and usage guidance.
-version: 1.0.0
+description: Use this skill when users ask specifically about the Storybook Assistant plugin - "what can the storybook assistant do", "storybook plugin features", "storybook assistant commands", "help with storybook assistant", "storybook plugin capabilities". ONLY triggers when user explicitly mentions "storybook assistant", "storybook plugin", or asks about Storybook-specific features. Does NOT trigger on generic help questions.
+version: 1.0.1
 ---
 
 # Plugin Guide & Help
 
 ## Overview
 
-This skill helps users discover and understand all Storybook Assistant Plugin capabilities through natural language queries.
+This skill helps users discover and understand all Storybook Assistant Plugin capabilities through natural language queries **that specifically mention the Storybook Assistant or Storybook plugin**.
 
 ## When to Use This Skill
 
-Trigger this skill when the user:
-- Asks "what can you do?" or "what are your capabilities?"
-- Wants to "see all features" or "list commands"
-- Says "help" or "I need help"
-- Asks "how do I..." followed by any Storybook task
-- Wants to know "what's new" or "what changed"
-- Asks about specific features without knowing the exact command name
-- Seems lost or unsure where to start
+**IMPORTANT:** This skill should ONLY trigger when the user explicitly mentions the plugin or Storybook-specific features.
+
+**✅ DO Trigger on:**
+- "What can the **Storybook Assistant** do?"
+- "Show me **Storybook plugin** features"
+- "Help with **Storybook Assistant**"
+- "List **Storybook** commands"
+- "**Storybook Assistant** capabilities"
+- "What **Storybook** features are available?"
+- "How do I use the **Storybook plugin**?"
+- "Tell me about **Storybook Assistant**"
+
+**❌ DO NOT Trigger on:**
+- "help" (generic - goes to Claude Code help)
+- "what can you do" (generic - not plugin-specific)
+- "show features" (generic - could be anything)
+- "list commands" (generic - could be any commands)
+- General questions that don't mention Storybook or the plugin
 
 ## Response Strategy
 
-### For General "What Can You Do" Questions
+### For Storybook-Specific Feature Questions
 
-Provide a well-organized, scannable overview:
+When user asks about the Storybook Assistant plugin specifically, provide a well-organized, scannable overview:
 
 ```markdown
 # 🎨 Storybook Assistant - What I Can Do
