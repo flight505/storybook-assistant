@@ -78,10 +78,10 @@ if [ -d ".storybook" ]; then
             STORYBOOK_VERSION=$(grep "\"storybook\":" package.json | sed 's/.*: "[\^~]*//' | sed 's/".*//')
             echo -e "   ${BLUE}└─${NC} Version: $STORYBOOK_VERSION"
 
-            # Check if it's Storybook 9+
+            # Check if it's Storybook 10+
             MAJOR_VERSION=$(echo $STORYBOOK_VERSION | cut -d. -f1)
-            if [ "$MAJOR_VERSION" -ge 9 ]; then
-                echo -e "   ${GREEN}└─${NC} Storybook 9+ detected (SOTA version)"
+            if [ "$MAJOR_VERSION" -ge 10 ]; then
+                echo -e "   ${GREEN}└─${NC} Storybook 10+ detected (SOTA version)"
             else
                 echo -e "   ${YELLOW}└─${NC} Older version detected. Consider migration with /migrate-storybook"
             fi
@@ -106,7 +106,7 @@ if [ ${#ISSUES[@]} -eq 0 ]; then
     # Show quick start
     echo ""
     echo -e "${BLUE}🚀 Quick Start:${NC}"
-    echo -e "   ${BLUE}1.${NC} Run: ${GREEN}/setup-storybook${NC} - Initialize Storybook 9 in your project"
+    echo -e "   ${BLUE}1.${NC} Run: ${GREEN}/setup-storybook${NC} - Initialize Storybook 10 in your project"
     echo -e "   ${BLUE}2.${NC} Run: ${GREEN}/generate-stories${NC} - Generate stories for existing components"
     echo -e "   ${BLUE}3.${NC} Run: ${GREEN}/create-component${NC} - Scaffold new component with tests"
 

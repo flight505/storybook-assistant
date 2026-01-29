@@ -1,10 +1,16 @@
 ---
-description: Initialize Storybook 9 in your project with automatic framework detection, SOTA configuration, and optional visual generation
+description: Initialize Storybook 10 in your project with automatic framework detection, SOTA configuration, and optional visual generation
 ---
 
 # Setup Storybook Command
 
-When the user invokes `/setup-storybook`, initialize Storybook 9 with automatic framework detection, testing features, and SOTA best practices for 2026.
+When the user invokes `/setup-storybook`, initialize Storybook 10 with automatic framework detection, testing features, and SOTA best practices for 2026.
+
+> **IMPORTANT: Storybook 10 Changes**
+> - `@storybook/addon-essentials` is **DEPRECATED and REMOVED** - essential features are now built into core
+> - `@storybook/addon-interactions`, `@storybook/addon-links`, `@storybook/blocks` are also removed
+> - Actions, backgrounds, controls, viewport, measure, outline, toolbars are **built-in by default**
+> - Only install addons for features NOT in core: `@storybook/addon-docs`, `@storybook/addon-a11y`, `@storybook/addon-vitest`
 
 ## Execution Flow
 
@@ -24,12 +30,12 @@ When the user invokes `/setup-storybook`, initialize Storybook 9 with automatic 
 
 2. **Check Existing Storybook**
    - If `.storybook/` exists, inform user and offer migration
-   - If Storybook < 9, suggest `/migrate-storybook` command
+   - If Storybook < 10, suggest `/migrate-storybook` command
 
 3. **Validate Prerequisites**
    - Node.js >= 20
    - npm >= 10
-   - Framework version compatible with Storybook 9
+   - Framework version compatible with Storybook 10
 
 ### Phase 2: User Configuration (AskUserQuestion)
 
@@ -206,11 +212,14 @@ if (OPENROUTER_API_KEY_AVAILABLE) {
 
 Based on detected framework and user preferences, install dependencies:
 
+> **Storybook 10:** Essential addons (actions, backgrounds, controls, viewport) are now **built-in**.
+> Do NOT install `@storybook/addon-essentials` - it's deprecated and removed.
+
 ```bash
-# Core Storybook 9
+# Core Storybook 10
 npm install --save-dev storybook@latest
 
-# Framework-specific
+# Framework-specific (pick one based on detection)
 # React
 npm install --save-dev @storybook/react-vite@latest
 
@@ -226,8 +235,8 @@ npm install --save-dev @storybook/angular@latest
 # Next.js
 npm install --save-dev @storybook/nextjs-vite@latest
 
-# Essential addons (always)
-npm install --save-dev @storybook/addon-essentials@latest
+# Documentation addon (if needed)
+npx storybook@latest add @storybook/addon-docs
 
 # If interaction tests selected
 npx storybook@latest add @storybook/addon-vitest
@@ -244,6 +253,9 @@ npm install --save-dev @vitest/coverage-v8
 
 Generate `.storybook/main.ts` with SOTA patterns:
 
+> **Storybook 10:** Do NOT include `@storybook/addon-essentials` or `@storybook/addon-links` - they are deprecated/removed.
+> Essential features (actions, backgrounds, controls, viewport) are now built into core.
+
 ```typescript
 import type { StorybookConfig } from '@storybook/${FRAMEWORK}-vite';
 
@@ -254,11 +266,11 @@ const config: StorybookConfig = {
   ],
 
   addons: [
-    '@storybook/addon-essentials',
+    // NOTE: addon-essentials is REMOVED in Storybook 10 - features are built-in
+    '@storybook/addon-docs', // Documentation (still separate addon)
     // Conditional addons based on user selection
     ${INTERACTION_TESTS ? "'@storybook/addon-vitest'," : ""}
     ${A11Y_TESTS ? "'@storybook/addon-a11y'," : ""}
-    '@storybook/addon-links',
   ],
 
   framework: {
@@ -600,7 +612,7 @@ Add Storybook scripts with SOTA configuration:
 ### Phase 9: Completion Summary
 
 ```
-✅ Storybook 9 Setup Complete!
+✅ Storybook 10 Setup Complete!
 
 Configured for: ${FRAMEWORK} ${VERSION} (${BUNDLER})
 Platform: ${PLATFORM}
@@ -641,7 +653,9 @@ Documentation: See .storybook/README.md for configuration details
 
 ## Notes
 
-- Always use the latest Storybook 9 packages
+- Always use the latest Storybook 10 packages
+- **Do NOT use `@storybook/addon-essentials`** - it's deprecated in Storybook 10
+- Essential features (actions, backgrounds, controls, viewport) are built into core
 - Prefer Vite over Webpack for faster builds
 - Include SOTA patterns: play functions, a11y tests, coverage
 - Make visual generation truly optional

@@ -6,11 +6,11 @@
 
 <br>
 
-**Complete SOTA 2026 Storybook assistant with Vision AI design-to-code, natural language generation, AI-powered accessibility remediation, React Server Components, AI visual regression testing, design token sync, usage analytics, dark mode generation, and comprehensive testing (Storybook 9, React 19, Next.js 15).**
+**Complete SOTA 2026 Storybook assistant with Vision AI design-to-code, natural language generation, AI-powered accessibility remediation, React Server Components, AI visual regression testing, design token sync, usage analytics, dark mode generation, and comprehensive testing (Storybook 10, React 19, Next.js 15).**
 
 [![Version](https://img.shields.io/badge/version-2.1.6-blue.svg)](https://github.com/flight505/storybook-assistant-plugin)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Storybook](https://img.shields.io/badge/Storybook-9.0+-FF4785.svg)](https://storybook.js.org/)
+[![Storybook](https://img.shields.io/badge/Storybook-10.0+-FF4785.svg)](https://storybook.js.org/)
 [![React](https://img.shields.io/badge/React-19-61DAFB.svg)](https://react.dev/)
 [![Next.js](https://img.shields.io/badge/Next.js-15-000000.svg)](https://nextjs.org/)
 
@@ -22,9 +22,10 @@
 
 ## ✨ Features
 
-### 🚀 **Auto-Configured Storybook 9**
+### 🚀 **Auto-Configured Storybook 10**
 - Automatic framework detection (React, Vue, Svelte, Angular, Next.js, Solid, Lit)
 - SOTA 2026 best practices out-of-the-box
+- Essential features (actions, backgrounds, controls, viewport) now built-in
 - Vite-powered builds (48% smaller, 2-4x faster than Storybook 8)
 - One command setup: `/setup-storybook`
 
@@ -148,7 +149,7 @@ The plugin understands natural language and will automatically trigger the right
 
 | Command | Description |
 |---------|-------------|
-| `/setup-storybook` | Initialize Storybook 9 in your project |
+| `/setup-storybook` | Initialize Storybook 10 in your project |
 | `/generate-stories` | Generate stories for existing components |
 | `/create-component` | Scaffold new component with stories |
 | `/design-to-code` | Transform design screenshots to React components |
@@ -200,7 +201,7 @@ When building apps, developers create lots of UI pieces (buttons, cards, forms).
 
 **This plugin is your AI assistant that:**
 
-1. **Sets up the workshop** - Installs Storybook 9 with all the right tools
+1. **Sets up the workshop** - Installs Storybook 10 with all the right tools
 2. **Organizes your components** - Creates "stories" (examples) for each component
 3. **Tests everything** - Checks if buttons click, forms submit, colors contrast properly
 4. **Guides you visually** - Can generate mockups to show what components should look like
@@ -379,7 +380,7 @@ AskUserQuestion({
    ```
 
 5. **Execution** (automatic)
-   - Installs Storybook 9 + selected addons
+   - Installs Storybook 10 + selected addons
    - Generates config files with your choices
    - Creates platform-specific mocks (Tauri IPC mocks)
    - Creates example stories
@@ -387,7 +388,7 @@ AskUserQuestion({
 
 6. **Result**
    ```
-   ✅ Storybook 9 Setup Complete!
+   ✅ Storybook 10 Setup Complete!
 
    Configured for: React 19 (Next.js 15, Tauri)
    Design System: shadcn/ui
@@ -417,14 +418,14 @@ AskUserQuestion({
 
 ### `/setup-storybook`
 
-Initialize Storybook 9 with automatic framework detection and SOTA configuration.
+Initialize Storybook 10 with automatic framework detection and SOTA configuration.
 
 **What it does:**
 - Detects your framework (React, Vue, Svelte, etc.)
 - Detects platform (Web, Tauri, Electron)
 - Detects design system (MUI, Ant Design, shadcn/ui, etc.)
 - Asks for your preferences (testing features, visual generation)
-- Installs Storybook 9 + addons
+- Installs Storybook 10 + addons
 - Generates configuration files
 - Creates example stories
 - Sets up platform-specific mocks (Tauri/Electron)
@@ -434,7 +435,7 @@ Initialize Storybook 9 with automatic framework detection and SOTA configuration
 /setup-storybook
 
 # Output:
-✅ Storybook 9 Setup Complete!
+✅ Storybook 10 Setup Complete!
 
 Configured for: React 18.2.0 (Vite)
 Platform: Tauri
@@ -527,7 +528,7 @@ Next: Implement component following the mockup
 
 ### `/migrate-storybook`
 
-Migrate from older Storybook versions to Storybook 9.
+Migrate from older Storybook versions to Storybook 10.
 
 **What it does:**
 - Detects current Storybook version

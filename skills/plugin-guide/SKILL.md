@@ -94,7 +94,7 @@ Keep Figma and code perfectly synchronized:
 ## 📋 All Available Commands
 
 ### Setup & Configuration
-- `/setup-storybook` - Initialize Storybook 9
+- `/setup-storybook` - Initialize Storybook 10
 - `/setup-ci-cd` - Generate CI/CD pipeline
 - `/setup-visual-testing` - Configure visual regression
 

@@ -150,7 +150,7 @@ storybook-assistant/
 │       └── create-component-workflow.sh
 │
 ├── skills/                         # AI skills (18 total)
-│   ├── storybook-config/           # Storybook 9 setup
+│   ├── storybook-config/           # Storybook 10 setup
 │   ├── story-generation/           # Story file generation
 │   │   ├── SKILL.md
 │   │   ├── scripts/
@@ -271,12 +271,12 @@ storybook-assistant/
 - Added 10 new SOTA skills
 - Added 2 autonomous agents
 - Added 7 new commands
-- React 19, Next.js 15, Storybook 9 support
+- React 19, Next.js 15, Storybook 10 support
 
 ### v1.0.0 (Initial Release)
 
 **Core Features:**
-- Basic Storybook 9 setup
+- Basic Storybook 10 setup
 - Story generation from existing components
 - Component scaffolding
 - Visual design assets (optional)
@@ -295,7 +295,7 @@ storybook-assistant/
 | Feature | v1.0 | v2.0 (SOTA) | v2.1 | Priority | Status |
 |---------|------|-------------|------|----------|--------|
 | **Core Features** |
-| Storybook 9 Configuration | ✅ | ✅ | ✅ | - | Complete |
+| Storybook 10 Configuration | ✅ | ✅ | ✅ | - | Complete |
 | Story Generation | ✅ | ✅ Enhanced | ✅ | - | Complete |
 | Component Scaffolding | ✅ | ✅ Enhanced | ✅ | - | Complete |
 | Visual Design (AI) | ✅ | ✅ | ✅ | - | Complete |
@@ -364,7 +364,7 @@ description: Third-person description with trigger phrases. Use when user mentio
 
 #### Original Skills (7)
 
-1. **storybook-config** - Storybook 9 initialization
+1. **storybook-config** - Storybook 10 initialization
    - Auto-detects framework (React, Vue, Svelte, Angular, Next.js, Solid, Lit)
    - Configures Vite builds (48% smaller, 2-4x faster)
    - Platform detection (Web, Tauri, Electron)
@@ -664,7 +664,7 @@ argument-hint: Optional argument structure
 | Command | Description | Skills Used | Agents Used |
 |---------|-------------|-------------|-------------|
 | `/help` | Feature discovery system | plugin-guide | - |
-| `/setup-storybook` | Initialize Storybook 9 | storybook-config, platform-support | - |
+| `/setup-storybook` | Initialize Storybook 10 | storybook-config, platform-support | - |
 | `/generate-stories` | Generate story files | story-generation | - |
 | `/create-component` | Scaffold component | component-scaffold, story-generation | - |
 | `/design-to-code` | Vision AI design conversion | design-to-code | - |

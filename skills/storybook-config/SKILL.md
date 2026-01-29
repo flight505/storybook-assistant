@@ -1,6 +1,6 @@
 ---
 name: storybook-config
-description: "Generate and configure Storybook 9 for any framework with automatic detection, SOTA best practices, and platform-specific optimizations (Web, Tauri, Electron)"
+description: "Generate and configure Storybook 10 for any framework with automatic detection, SOTA best practices, and platform-specific optimizations (Web, Tauri, Electron)"
 allowed-tools: [Read, Write, Edit, Bash, AskUserQuestion]
 ---
 
@@ -8,7 +8,7 @@ allowed-tools: [Read, Write, Edit, Bash, AskUserQuestion]
 
 ## Overview
 
-This skill generates production-ready Storybook 9 configurations with:
+This skill generates production-ready Storybook 10 configurations with:
 - Automatic framework detection (React, Vue, Svelte, Angular, Next.js, Solid, Lit)
 - SOTA 2026 best practices
 - Platform-specific optimizations (Tauri full support, Electron partial support)
@@ -18,7 +18,7 @@ This skill generates production-ready Storybook 9 configurations with:
 ## When to Use This Skill
 
 This skill should be used when:
-- Initializing Storybook 9 in a new project
+- Initializing Storybook 10 in a new project
 - Updating existing Storybook configuration to SOTA standards
 - Adding framework-specific optimizations
 - Configuring platform-specific setups (Tauri, Electron)
@@ -257,6 +257,10 @@ npm run storybook:coverage
 
 ### React with TypeScript (SOTA)
 
+> **Storybook 10 Note:** `@storybook/addon-essentials` is deprecated and removed in Storybook 10.
+> Essential features (actions, backgrounds, controls, viewport, measure, outline, toolbars) are now **built-in by default**.
+> Only add addons for features NOT included in core (e.g., `@storybook/addon-a11y`, `@storybook/addon-vitest`).
+
 ```typescript
 // .storybook/main.ts
 import type { StorybookConfig } from '@storybook/react-vite';
@@ -264,10 +268,11 @@ import type { StorybookConfig } from '@storybook/react-vite';
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)'],
   addons: [
-    '@storybook/addon-essentials',
-    '@storybook/addon-vitest',
-    '@storybook/addon-a11y',
-    '@storybook/addon-links',
+    // NOTE: addon-essentials is REMOVED in Storybook 10
+    // Essential features (actions, backgrounds, controls, viewport) are now built-in
+    '@storybook/addon-docs',   // Documentation (still separate)
+    '@storybook/addon-vitest', // Real browser testing
+    '@storybook/addon-a11y',   // Accessibility testing
   ],
   framework: {
     name: '@storybook/react-vite',
@@ -343,7 +348,7 @@ export default preview;
 
 Before completing configuration:
 - [ ] Framework detected correctly
-- [ ] Correct Storybook 9 packages installed
+- [ ] Correct Storybook 10 packages installed
 - [ ] Addons configured based on user preferences
 - [ ] Theme/design system integrated (if applicable)
 - [ ] Platform-specific setup complete (Tauri/Electron)

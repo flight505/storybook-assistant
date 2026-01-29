@@ -12,7 +12,7 @@
   "plugins": [
     {
       "name": "storybook-assistant",
-      "description": "SOTA 2026 Storybook assistant with Vision AI, natural language generation, AI accessibility remediation, and comprehensive testing for Storybook 9, React 19, Next.js 15",
+      "description": "SOTA 2026 Storybook assistant with Vision AI, natural language generation, AI accessibility remediation, and comprehensive testing for Storybook 10, React 19, Next.js 15",
       "source": "./",
       "strict": true
     }

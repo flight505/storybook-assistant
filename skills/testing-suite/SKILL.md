@@ -1,14 +1,14 @@
 ---
-description: Use this skill when the user asks to "set up testing", "configure tests for Storybook", "add interaction tests", "add accessibility tests", "set up a11y testing", "configure Vitest", "configure Playwright", mentions "play functions", "test-storybook", "component testing", or wants to add comprehensive testing to their Storybook setup. This skill provides guidance on modern Storybook 9 testing with Vitest, Playwright, and axe-core.
+description: Use this skill when the user asks to "set up testing", "configure tests for Storybook", "add interaction tests", "add accessibility tests", "set up a11y testing", "configure Vitest", "configure Playwright", mentions "play functions", "test-storybook", "component testing", or wants to add comprehensive testing to their Storybook setup. This skill provides guidance on modern Storybook 10 testing with Vitest, Playwright, and axe-core.
 ---
 
 # Testing Suite Skill
 
 ## Overview
 
-Set up and configure comprehensive testing for Storybook 9 components, including interaction tests with play functions, accessibility testing with axe-core, and visual regression testing with Playwright.
+Set up and configure comprehensive testing for Storybook 10 components, including interaction tests with play functions, accessibility testing with axe-core, and visual regression testing with Playwright.
 
-This skill provides guidance on implementing modern component testing patterns using Storybook 9's integrated testing capabilities.
+This skill provides guidance on implementing modern component testing patterns using Storybook 10's integrated testing capabilities.
 
 ## What This Skill Provides
 
@@ -120,10 +120,10 @@ Combination of interaction tests, accessibility tests, and visual regression.
 - Component libraries
 - Critical user flows
 
-## Storybook 9 Testing Features
+## Storybook 10 Testing Features
 
 ### Vitest Integration
-Storybook 9 uses Vitest as the default test runner:
+Storybook 10 uses Vitest as the default test runner:
 
 **Benefits:**
 - ⚡ Fast: Runs in real browsers (not JSDOM)
@@ -151,7 +151,7 @@ Real browser testing with Playwright:
 - 🔍 Tracing: Step-by-step execution
 
 **Setup:**
-Storybook 9 includes Playwright by default. Configure in `.storybook/test-runner-jest.config.js`:
+Storybook 10 includes Playwright by default. Configure in `.storybook/test-runner-jest.config.js`:
 
 ```javascript
 export default {
@@ -375,7 +375,7 @@ jobs:
 
 ## Test Coverage
 
-Storybook 9 includes V8 coverage (faster than Istanbul):
+Storybook 10 includes V8 coverage (faster than Istanbul):
 
 ```json
 {

@@ -139,7 +139,7 @@ USER INITIATES
 ┌─────────────────────────────────────────────────────────────┐
 │ PHASE 3: Installation (TodoWrite Progress)                 │
 │ ────────────────────────────────────────                    │
-│ ✓ Installing Storybook 9 dependencies                      │
+│ ✓ Installing Storybook 10 dependencies                      │
 │ ⏳ Installing testing addons                               │
 │ ⏹ Generating configuration files                          │
 │ ⏹ Creating example stories                                │
@@ -161,7 +161,7 @@ USER INITIATES
 ┌─────────────────────────────────────────────────────────────┐
 │ PHASE 5: Completion Summary                                │
 │ ────────────────────────────────────────                    │
-│ ✅ Storybook 9 Setup Complete!                             │
+│ ✅ Storybook 10 Setup Complete!                             │
 │                                                             │
 │ Configured for: React 18.2.0 (Vite)                        │
 │ Platform: Web                                               │

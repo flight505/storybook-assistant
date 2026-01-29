@@ -1,7 +1,7 @@
 {
   "name": "storybook-assistant",
   "version": "2.1.6",
-  "description": "Complete SOTA 2026 Storybook assistant with Vision AI design-to-code, natural language generation, AI-powered accessibility remediation, React Server Components, AI visual regression testing, design token sync, usage analytics, dark mode generation, and comprehensive testing (Storybook 9, React 19, Next.js 15)",
+  "description": "Complete SOTA 2026 Storybook assistant with Vision AI design-to-code, natural language generation, AI-powered accessibility remediation, React Server Components, AI visual regression testing, design token sync, usage analytics, dark mode generation, and comprehensive testing (Storybook 10, React 19, Next.js 15)",
   "author": {
     "name": "Jesper Vang",
     "url": "https://github.com/flight505"
@@ -11,7 +11,7 @@
   "homepage": "https://github.com/flight505/storybook-assistant-plugin",
   "keywords": [
     "storybook",
-    "storybook-9",
+    "storybook-10",
     "react-19",
     "nextjs-15",
     "server-components",

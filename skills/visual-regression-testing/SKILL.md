@@ -315,7 +315,7 @@ User: "Set up visual regression testing for my Storybook"
 
 Claude: Setting up AI-powered visual regression testing...
 
-✓ Detected: Storybook 9 with Vite
+✓ Detected: Storybook 10 with Vite
 ✓ Installing: @storybook/test-runner, playwright
 ✓ Creating: .storybook/test-runner-config.ts
 ✓ Creating: .storybook/visual-regression-ai.ts
