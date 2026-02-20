@@ -4,6 +4,7 @@ Component parser for React/TypeScript, Vue, and Svelte
 Extracts component metadata: name, props, types, variants
 """
 
+import argparse
 import re
 import json
 import sys
@@ -134,7 +135,10 @@ class ReactTypeScriptParser(ComponentParser):
                 exports_default=exports_default,
             )
 
-        except Exception as e:
+        except OSError as e:
+            print(f"Error reading {file_path}: {e}", file=sys.stderr)
+            return None
+        except (AttributeError, IndexError, re.error) as e:
             print(f"Error parsing {file_path}: {e}", file=sys.stderr)
             return None
 
@@ -241,7 +245,10 @@ class VueParser(ComponentParser):
                 exports_default=True,
             )
 
-        except Exception as e:
+        except OSError as e:
+            print(f"Error reading {file_path}: {e}", file=sys.stderr)
+            return None
+        except (AttributeError, IndexError, re.error) as e:
             print(f"Error parsing {file_path}: {e}", file=sys.stderr)
             return None
 
@@ -324,7 +331,10 @@ class SvelteParser(ComponentParser):
                 exports_default=True,
             )
 
-        except Exception as e:
+        except OSError as e:
+            print(f"Error reading {file_path}: {e}", file=sys.stderr)
+            return None
+        except (AttributeError, IndexError, re.error) as e:
             print(f"Error parsing {file_path}: {e}", file=sys.stderr)
             return None
 
@@ -375,8 +385,6 @@ def parse_component(file_path: str) -> Optional[ComponentMetadata]:
 
 def main():
     """CLI interface"""
-    import argparse
-
     parser = argparse.ArgumentParser(description="Parse component and extract metadata")
     parser.add_argument("file_path", help="Path to component file")
     parser.add_argument("--json", action="store_true", help="Output as JSON")

@@ -62,7 +62,7 @@ Before pushing:
 
 ## Maintenance Notes
 
-### Current Version: 2.1.8
+### Current Version: 2.2.1
 
 **Features:**
 - 18 skills (7 original + 10 SOTA 2026 + 1 help/guide)
@@ -90,4 +90,4 @@ Before pushing:
 
 - **Repository**: https://github.com/flight505/storybook-assistant-plugin
 - **Issues**: Report bugs and feature requests via GitHub Issues
-- **Documentation**: See README.md and SOTA_IMPLEMENTATION_COMPLETE.md
+- **Documentation**: See README.md and CONTEXT_storybook-assistant.md

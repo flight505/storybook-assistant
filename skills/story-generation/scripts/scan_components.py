@@ -3,10 +3,18 @@
 Component scanner for finding all components in a project
 """
 
+import fnmatch
 import json
+import sys
 from pathlib import Path
-from typing import List, Dict, Any
-from parse_component import parse_component
+from typing import List, Dict, Any, Optional
+
+# Ensure sibling modules are importable regardless of CWD
+_SCRIPT_DIR = str(Path(__file__).resolve().parent)
+if _SCRIPT_DIR not in sys.path:
+    sys.path.insert(0, _SCRIPT_DIR)
+
+from parse_component import parse_component  # noqa: E402
 
 
 class ComponentScanner:
@@ -38,8 +46,8 @@ class ComponentScanner:
     @staticmethod
     def scan(
         root_dir: str,
-        include_patterns: List[str] = None,
-        exclude_patterns: List[str] = None,
+        include_patterns: Optional[List[str]] = None,
+        exclude_patterns: Optional[List[str]] = None,
     ) -> List[Dict[str, Any]]:
         """
         Scan directory for components
@@ -122,8 +130,6 @@ class ComponentScanner:
 
             # Wildcard pattern
             if "*" in pattern:
-                import fnmatch
-
                 if fnmatch.fnmatch(file_str, f"*{pattern}"):
                     return True
 

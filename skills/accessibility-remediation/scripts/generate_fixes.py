@@ -16,6 +16,13 @@ import json
 from pathlib import Path
 from typing import List, Dict, Any
 
+# Ensure sibling modules are importable regardless of CWD
+_SCRIPT_DIR = str(Path(__file__).resolve().parent)
+if _SCRIPT_DIR not in sys.path:
+    sys.path.insert(0, _SCRIPT_DIR)
+
+from color_utils import darken_color, lighten_color  # noqa: E402
+
 
 class FixGenerator:
     """Generates AI-powered accessibility fix suggestions"""
@@ -618,87 +625,106 @@ button:focus-visible {
             }
         ]
 
-    # Color manipulation helpers
+    # Color manipulation helpers — delegate to shared color_utils module
 
-    def _darken_color(self, color: str) -> str:
-        """Darken a hex color (simplified)"""
-        if not color.startswith("#"):
-            return "#666"
+    @staticmethod
+    def _darken_color(color: str) -> str:
+        """Darken a hex color"""
+        return darken_color(color)
 
-        # Remove # and convert to RGB
-        color = color.lstrip("#")
-        if len(color) == 3:
-            color = "".join([c * 2 for c in color])
+    @staticmethod
+    def _lighten_color(color: str) -> str:
+        """Lighten a hex color"""
+        return lighten_color(color)
 
-        # Darken by reducing RGB values
-        try:
-            r, g, b = [int(color[i : i + 2], 16) for i in (0, 2, 4)]
-            r = max(0, int(r * 0.7))
-            g = max(0, int(g * 0.7))
-            b = max(0, int(b * 0.7))
-            return f"#{r:02x}{g:02x}{b:02x}"
-        except (ValueError, IndexError):
-            # Color parsing failed, return safe default
-            return "#666"
 
-    def _lighten_color(self, color: str) -> str:
-        """Lighten a hex color (simplified)"""
-        if not color.startswith("#"):
-            return "#f5f5f5"
-
-        color = color.lstrip("#")
-        if len(color) == 3:
-            color = "".join([c * 2 for c in color])
-
-        try:
-            r, g, b = [int(color[i : i + 2], 16) for i in (0, 2, 4)]
-            r = min(255, int(r + (255 - r) * 0.3))
-            g = min(255, int(g + (255 - g) * 0.3))
-            b = min(255, int(b + (255 - b) * 0.3))
-            return f"#{r:02x}{g:02x}{b:02x}"
-        except (ValueError, IndexError):
-            # Color parsing failed, return safe default
-            return "#f5f5f5"
+def _build_context_for_issue(issue_type: str) -> Dict[str, Any]:
+    """Build appropriate default context based on issue type"""
+    contexts: Dict[str, Dict[str, Any]] = {
+        "missing_accessible_name": {
+            "button_purpose": {"purpose": "generic_button", "suggested_label": "Action"},
+            "is_icon_only": False,
+            "content": "",
+        },
+        "missing_alt_text": {
+            "is_decorative": False,
+            "src": "image.png",
+        },
+        "missing_form_label": {
+            "input_type": "text",
+            "placeholder": "",
+        },
+        "color_contrast": {
+            "foreground_color": "#999",
+            "background_color": "#fff",
+            "contrast_ratio": 2.8,
+        },
+        "missing_focus_indicator": {},
+        "missing_keyboard_support": {
+            "element": "div",
+        },
+        "redundant_aria_role": {
+            "element": "button",
+            "redundant_role": "button",
+        },
+        "heading_hierarchy_skip": {
+            "prev_level": 1,
+            "current_level": 3,
+        },
+        "ambiguous_link_text": {
+            "link_text": "click here",
+        },
+    }
+    return contexts.get(issue_type, {})
 
 
 def main():
     """CLI entry point"""
-    if len(sys.argv) < 3:
-        print("Usage: python generate_fixes.py <component_file> <issue_type>")
-        print("\nSupported issue types:")
-        print("  - missing_accessible_name")
-        print("  - missing_alt_text")
-        print("  - missing_form_label")
-        print("  - color_contrast")
-        print("  - missing_focus_indicator")
-        print("  - missing_keyboard_support")
-        sys.exit(1)
+    import argparse
 
-    file_path = sys.argv[1]
-    issue_type = sys.argv[2]
+    parser = argparse.ArgumentParser(
+        description="Generate accessibility fix suggestions for a component"
+    )
+    parser.add_argument("component_file", help="Path to component file")
+    parser.add_argument(
+        "issue_type",
+        help="Type of accessibility issue",
+        choices=[
+            "missing_accessible_name",
+            "missing_alt_text",
+            "missing_form_label",
+            "color_contrast",
+            "missing_focus_indicator",
+            "missing_keyboard_support",
+            "redundant_aria_role",
+            "heading_hierarchy_skip",
+            "ambiguous_link_text",
+        ],
+    )
+    parser.add_argument("--line", type=int, default=1, help="Line number of the issue")
+    parser.add_argument("--element", default="", help="The problematic HTML element")
+    parser.add_argument("--debug", action="store_true", help="Show full traceback on error")
+
+    args = parser.parse_args()
 
     try:
-        generator = FixGenerator(file_path)
+        generator = FixGenerator(args.component_file)
 
-        # Mock context for demonstration
-        context = {
-            "button_purpose": {"purpose": "close_button", "suggested_label": "Close"},
-            "is_icon_only": True,
-            "content": "×",
-        }
+        context = _build_context_for_issue(args.issue_type)
+        element = args.element or f"<{args.issue_type}>"
 
         fixes = generator.generate_fixes_for_issue(
-            issue_type, "<button>×</button>", context, 10
+            args.issue_type, element, context, args.line
         )
 
         print(json.dumps(fixes, indent=2))
 
     except FileNotFoundError:
-        print(f"Error: File not found: {file_path}")
+        print(f"Error: File not found: {args.component_file}")
         sys.exit(1)
     except Exception as e:
         print(f"Error generating fixes: {e}")
-        if "--debug" in sys.argv:
+        if args.debug:
             raise
         sys.exit(1)
 

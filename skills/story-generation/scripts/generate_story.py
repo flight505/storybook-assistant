@@ -4,14 +4,19 @@ Story generation orchestrator
 Combines component parser, variant detector, and templates to generate stories
 """
 
+import argparse
 import re
 import sys
 from pathlib import Path
 from typing import Dict, List, Any, Optional
 
-# Import local modules
-from parse_component import parse_component, ComponentMetadata, PropDefinition
-from detect_variants import VariantDetector, Variant
+# Ensure sibling modules are importable regardless of CWD
+_SCRIPT_DIR = str(Path(__file__).resolve().parent)
+if _SCRIPT_DIR not in sys.path:
+    sys.path.insert(0, _SCRIPT_DIR)
+
+from parse_component import parse_component, ComponentMetadata, PropDefinition  # noqa: E402
+from detect_variants import VariantDetector, Variant  # noqa: E402
 
 
 class StoryGenerator:
@@ -381,8 +386,6 @@ export const {variant.name}: Story = {{
 
 def main():
     """CLI interface"""
-    import argparse
-
     parser = argparse.ArgumentParser(
         description="Generate Storybook stories from component"
     )

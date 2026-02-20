@@ -160,31 +160,98 @@ def flatten_dict(d: Dict, parent_key: str = "", sep: str = ".") -> Dict:
     return dict(items)
 
 
-def calculate_pixel_diff(baseline_path: str, current_path: str) -> Tuple[int, float]:
-    """Calculate pixel difference between images"""
+def detect_change_type(
+    baseline_arr: "np.ndarray", current_arr: "np.ndarray", threshold: int = 10
+) -> str:
+    """
+    Detect the dominant type of visual change between two images.
+
+    Analyzes pixel differences to classify as:
+    - "color": Widespread hue/saturation changes in-place (e.g. theme update)
+    - "position": Contiguous shifted regions (e.g. layout shift)
+    - "size": Image dimensions differ or large bounding-box change
+    - "text": Small, scattered pixel changes (e.g. font rendering)
+    - "unknown": Not enough signal to classify
+    """
+    diff = np.abs(baseline_arr.astype(int) - current_arr.astype(int))
+    changed_mask = np.any(diff > threshold, axis=2)
+    changed_count = np.sum(changed_mask)
+
+    if changed_count == 0:
+        return "unknown"
+
+    total_pixels = changed_mask.shape[0] * changed_mask.shape[1]
+    change_ratio = changed_count / total_pixels
+
+    # Find bounding box of changed region
+    rows = np.any(changed_mask, axis=1)
+    cols = np.any(changed_mask, axis=0)
+    row_indices = np.where(rows)[0]
+    col_indices = np.where(cols)[0]
+
+    if len(row_indices) == 0:
+        return "unknown"
+
+    bbox_height = row_indices[-1] - row_indices[0] + 1
+    bbox_width = col_indices[-1] - col_indices[0] + 1
+    bbox_area = bbox_height * bbox_width
+    bbox_density = changed_count / bbox_area if bbox_area > 0 else 0
+
+    # Heuristics for classification:
+    # Color changes: large area affected, high density, color channels shift significantly
+    if change_ratio > 0.15 and bbox_density > 0.5:
+        return "color"
+
+    # Position/layout: moderate area, lower density (shifted block leaves gap)
+    if 0.01 < change_ratio < 0.5 and bbox_density < 0.4:
+        return "position"
+
+    # Text: very small scattered changes, low total ratio
+    if change_ratio < 0.05 and bbox_density < 0.3:
+        return "text"
+
+    # Moderate changes that don't fit other patterns
+    if change_ratio > 0.05:
+        return "color"
+
+    return "unknown"
+
+
+def calculate_pixel_diff(
+    baseline_path: str, current_path: str
+) -> Tuple[int, float, str]:
+    """Calculate pixel difference between images and detect change type"""
     try:
         baseline = Image.open(baseline_path).convert("RGB")
         current = Image.open(current_path).convert("RGB")
 
-        # Ensure same dimensions
+        # Size mismatch = layout/size change
         if baseline.size != current.size:
-            raise ValueError("Image dimensions do not match")
+            # Resize to compare what we can, but flag as size change
+            pixels = abs(
+                baseline.size[0] * baseline.size[1]
+                - current.size[0] * current.size[1]
+            )
+            percentage = (pixels / (baseline.size[0] * baseline.size[1])) * 100
+            return pixels, percentage, "size"
 
         # Convert to numpy arrays
         baseline_arr = np.array(baseline)
         current_arr = np.array(current)
 
         # Calculate difference
-        diff = np.abs(baseline_arr - current_arr)
+        diff = np.abs(baseline_arr.astype(int) - current_arr.astype(int))
 
         # Count changed pixels (with threshold)
         threshold = 10  # RGB difference threshold
-        changed_pixels = np.sum(np.any(diff > threshold, axis=2))
+        changed_pixels = int(np.sum(np.any(diff > threshold, axis=2)))
 
         total_pixels = baseline.size[0] * baseline.size[1]
         percentage = (changed_pixels / total_pixels) * 100
 
-        return changed_pixels, percentage
+        change_type = detect_change_type(baseline_arr, current_arr, threshold)
+
+        return changed_pixels, percentage, change_type
     except (IOError, ValueError) as e:
         raise RuntimeError(f"Error comparing images: {e}")
 
@@ -285,9 +352,9 @@ def find_relevant_commits(
 def analyze_visual_diff(context: AnalysisContext) -> Dict:
     """Main analysis function"""
 
-    # Calculate pixel difference
+    # Calculate pixel difference and detect change type
     try:
-        pixels_changed, percentage = calculate_pixel_diff(
+        pixels_changed, percentage, change_type = calculate_pixel_diff(
             context.baseline_path, context.current_path
         )
     except RuntimeError as e:
@@ -302,13 +369,9 @@ def analyze_visual_diff(context: AnalysisContext) -> Dict:
             "message": "No visual changes detected",
         }
 
-    # Analyze the change
-    # In a real implementation, we would detect change type by analyzing
-    # which pixels changed (color vs position vs size)
-    # For now, we'll use a simplified approach
-
+    # Categorize based on detected change type
     category, reason, evidence, recommendation = categorize_change(
-        change_type="unknown",  # Would detect from pixel analysis
+        change_type=change_type,
         old_value="",
         new_value="",
         pixels=pixels_changed,
@@ -320,6 +383,7 @@ def analyze_visual_diff(context: AnalysisContext) -> Dict:
         "success": True,
         "changes_detected": pixels_changed,
         "percentage": percentage,
+        "change_type": change_type,
         "category": category.value,
         "reason": reason,
         "evidence": evidence,

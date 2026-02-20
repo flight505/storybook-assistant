@@ -4,10 +4,18 @@ Variant detection for component props
 Analyzes prop types and generates intelligent story variants
 """
 
+import argparse
 import re
 import json
+import sys
+from pathlib import Path
 from typing import List, Dict, Any
 from dataclasses import dataclass, asdict
+
+# Ensure sibling modules are importable regardless of CWD
+_SCRIPT_DIR = str(Path(__file__).resolve().parent)
+if _SCRIPT_DIR not in sys.path:
+    sys.path.insert(0, _SCRIPT_DIR)
 
 
 @dataclass
@@ -293,8 +301,6 @@ def detect_variants_from_file(file_path: str) -> List[Variant]:
 
 def main():
     """CLI interface"""
-    import argparse
-
     parser = argparse.ArgumentParser(description="Detect component variants from props")
     parser.add_argument("file_path", help="Path to component file")
     parser.add_argument("--json", action="store_true", help="Output as JSON")

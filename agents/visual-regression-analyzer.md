@@ -377,7 +377,7 @@ Based on this analysis:
 
 **Analysis Confidence:** High
 **Total Analysis Time:** 3.2s
-**AI Model:** Claude Sonnet 4.5
+**AI Model:** Claude Sonnet 4.6
 ```
 
 ## Interactive Analysis

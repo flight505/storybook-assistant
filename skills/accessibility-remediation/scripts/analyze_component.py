@@ -19,6 +19,13 @@ from typing import List, Dict, Any, Optional
 from dataclasses import dataclass, asdict
 from enum import Enum
 
+# Ensure sibling modules are importable regardless of CWD
+_SCRIPT_DIR = str(Path(__file__).resolve().parent)
+if _SCRIPT_DIR not in sys.path:
+    sys.path.insert(0, _SCRIPT_DIR)
+
+from color_utils import calculate_contrast_ratio  # noqa: E402
+
 
 class Severity(Enum):
     """Issue severity levels matching WCAG conformance"""
@@ -69,6 +76,14 @@ class ComponentAnalyzer:
         self.lines = self.content.split("\n")
         self.issues: List[AccessibilityIssue] = []
 
+    def _get_line_number(self, pos: int) -> int:
+        """Get line number (1-based) for a character position in the content"""
+        return self.content[:pos].count("\n") + 1
+
+    def _get_column(self, pos: int) -> int:
+        """Get column number for a character position in the content"""
+        return pos - self.content[:pos].rfind("\n")
+
     def analyze(self) -> List[AccessibilityIssue]:
         """Run all accessibility checks"""
         self.check_missing_button_labels()
@@ -92,7 +107,7 @@ class ComponentAnalyzer:
         for match in re.finditer(button_pattern, self.content, re.DOTALL):
             attrs = match.group(1)
             content = match.group(2).strip()
-            line_num = self.content[: match.start()].count("\n") + 1
+            line_num = self._get_line_number(match.start())
 
             # Check if button has accessible name
             has_aria_label = "aria-label=" in attrs
@@ -120,8 +135,7 @@ class ComponentAnalyzer:
                         wcag_criterion="4.1.2",
                         wcag_level=WCAGLevel.A,
                         line=line_num,
-                        column=match.start()
-                        - self.content[: match.start()].rfind("\n"),
+                        column=self._get_column(match.start()),
                         element=f"<button>{content}</button>",
                         message="Button has no accessible name for screen readers",
                         context={
@@ -140,7 +154,7 @@ class ComponentAnalyzer:
 
         for match in re.finditer(img_pattern, self.content):
             attrs = match.group(1)
-            line_num = self.content[: match.start()].count("\n") + 1
+            line_num = self._get_line_number(match.start())
 
             # Check for alt attribute
             has_alt = "alt=" in attrs
@@ -156,8 +170,7 @@ class ComponentAnalyzer:
                         wcag_criterion="1.1.1",
                         wcag_level=WCAGLevel.A,
                         line=line_num,
-                        column=match.start()
-                        - self.content[: match.start()].rfind("\n"),
+                        column=self._get_column(match.start()),
                         element=match.group(0),
                         message="Image missing alt attribute",
                         context={
@@ -175,7 +188,7 @@ class ComponentAnalyzer:
 
         for match in re.finditer(input_pattern, self.content):
             attrs = match.group(1)
-            line_num = self.content[: match.start()].count("\n") + 1
+            line_num = self._get_line_number(match.start())
 
             # Check if input has label association
             has_id = "id=" in attrs
@@ -206,8 +219,7 @@ class ComponentAnalyzer:
                         wcag_criterion="3.3.2",
                         wcag_level=WCAGLevel.A,
                         line=line_num,
-                        column=match.start()
-                        - self.content[: match.start()].rfind("\n"),
+                        column=self._get_column(match.start()),
                         element=match.group(0),
                         message="Form input missing associated label",
                         context={
@@ -228,7 +240,7 @@ class ComponentAnalyzer:
 
         for match in re.finditer(style_pattern, self.content):
             styles = match.group(1)
-            line_num = self.content[: match.start()].count("\n") + 1
+            line_num = self._get_line_number(match.start())
 
             # Extract color and background
             color = self._extract_style_color(styles, "color")
@@ -252,8 +264,7 @@ class ComponentAnalyzer:
                             wcag_criterion="1.4.3",
                             wcag_level=WCAGLevel.AA,
                             line=line_num,
-                            column=match.start()
-                            - self.content[: match.start()].rfind("\n"),
+                            column=self._get_column(match.start()),
                             element=match.group(0),
                             message=f"Color contrast too low ({contrast_ratio:.1f}:1)",
                             context={
@@ -281,7 +292,7 @@ class ComponentAnalyzer:
 
         for pattern, element, role in redundant_patterns:
             for match in re.finditer(pattern, self.content):
-                line_num = self.content[: match.start()].count("\n") + 1
+                line_num = self._get_line_number(match.start())
 
                 self.issues.append(
                     AccessibilityIssue(
@@ -290,8 +301,7 @@ class ComponentAnalyzer:
                         wcag_criterion="4.1.2",
                         wcag_level=WCAGLevel.A,
                         line=line_num,
-                        column=match.start()
-                        - self.content[: match.start()].rfind("\n"),
+                        column=self._get_column(match.start()),
                         element=match.group(0),
                         message=f'Redundant role="{role}" on <{element}> element',
                         context={"element": element, "redundant_role": role},
@@ -319,7 +329,7 @@ class ComponentAnalyzer:
         for invalid in invalid_aria:
             if invalid in self.content:
                 for match in re.finditer(invalid, self.content):
-                    line_num = self.content[: match.start()].count("\n") + 1
+                    line_num = self._get_line_number(match.start())
                     correct = invalid.replace("-", "")
 
                     self.issues.append(
@@ -329,8 +339,7 @@ class ComponentAnalyzer:
                             wcag_criterion="4.1.2",
                             wcag_level=WCAGLevel.A,
                             line=line_num,
-                            column=match.start()
-                            - self.content[: match.start()].rfind("\n"),
+                            column=self._get_column(match.start()),
                             element=invalid,
                             message=f"Invalid ARIA attribute: {invalid}",
                             context={"invalid_attr": invalid, "correct_attr": correct},
@@ -354,7 +363,7 @@ class ComponentAnalyzer:
 
         for pattern in focus_removal_patterns:
             for match in re.finditer(pattern, self.content):
-                line_num = self.content[: match.start()].count("\n") + 1
+                line_num = self._get_line_number(match.start())
 
                 # Check if there's a custom focus style nearby
                 context_start = max(0, match.start() - 200)
@@ -371,8 +380,7 @@ class ComponentAnalyzer:
                             wcag_criterion="2.4.7",
                             wcag_level=WCAGLevel.AA,
                             line=line_num,
-                            column=match.start()
-                            - self.content[: match.start()].rfind("\n"),
+                            column=self._get_column(match.start()),
                             element=match.group(0),
                             message="Focus outline removed without custom replacement",
                             context={"has_custom_focus": has_custom_focus},
@@ -388,7 +396,7 @@ class ComponentAnalyzer:
         for match in re.finditer(clickable_pattern, self.content):
             element_type = match.group(1)
             attrs = match.group(2)
-            line_num = self.content[: match.start()].count("\n") + 1
+            line_num = self._get_line_number(match.start())
 
             has_role = "role=" in attrs
             has_tabindex = "tabIndex=" in attrs
@@ -403,8 +411,7 @@ class ComponentAnalyzer:
                         wcag_criterion="2.1.1",
                         wcag_level=WCAGLevel.A,
                         line=line_num,
-                        column=match.start()
-                        - self.content[: match.start()].rfind("\n"),
+                        column=self._get_column(match.start()),
                         element=match.group(0),
                         message=f"<{element_type}> with onClick lacks keyboard support",
                         context={
@@ -434,7 +441,7 @@ class ComponentAnalyzer:
                 heading_matches = list(re.finditer(r"<h[1-6]", self.content))
                 if i < len(heading_matches):
                     line_num = (
-                        self.content[: heading_matches[i].start()].count("\n") + 1
+                        self._get_line_number(heading_matches[i].start())
                     )
 
                     self.issues.append(
@@ -469,7 +476,7 @@ class ComponentAnalyzer:
 
         for match in re.finditer(link_pattern, self.content, re.IGNORECASE):
             link_text = re.sub(r"<[^>]+>", "", match.group(1)).strip().lower()
-            line_num = self.content[: match.start()].count("\n") + 1
+            line_num = self._get_line_number(match.start())
 
             if link_text in ambiguous_texts:
                 self.issues.append(
@@ -479,8 +486,7 @@ class ComponentAnalyzer:
                         wcag_criterion="2.4.4",
                         wcag_level=WCAGLevel.A,
                         line=line_num,
-                        column=match.start()
-                        - self.content[: match.start()].rfind("\n"),
+                        column=self._get_column(match.start()),
                         element=match.group(0),
                         message=f'Link text "{link_text}" is not descriptive',
                         context={"link_text": link_text},
@@ -565,42 +571,7 @@ class ComponentAnalyzer:
 
     def _calculate_contrast_ratio(self, fg: str, bg: str) -> float:
         """Calculate WCAG contrast ratio between two colors"""
-        # Simplified contrast calculation (would use full algorithm in production)
-        # This is a placeholder that returns approximate values
-
-        # Convert hex to RGB if needed
-        def hex_to_rgb(color):
-            color = color.lstrip("#")
-            if len(color) == 3:
-                color = "".join([c * 2 for c in color])
-            return tuple(int(color[i : i + 2], 16) for i in (0, 2, 4))
-
-        def luminance(rgb):
-            # Simplified relative luminance calculation
-            r, g, b = [c / 255.0 for c in rgb]
-            r = r / 12.92 if r <= 0.03928 else ((r + 0.055) / 1.055) ** 2.4
-            g = g / 12.92 if g <= 0.03928 else ((g + 0.055) / 1.055) ** 2.4
-            b = b / 12.92 if b <= 0.03928 else ((b + 0.055) / 1.055) ** 2.4
-            return 0.2126 * r + 0.7152 * g + 0.0722 * b
-
-        try:
-            if fg.startswith("#"):
-                fg_rgb = hex_to_rgb(fg)
-                bg_rgb = hex_to_rgb(bg)
-            else:
-                # For non-hex colors, return a default passing value
-                return 5.0
-
-            l1 = luminance(fg_rgb)
-            l2 = luminance(bg_rgb)
-
-            lighter = max(l1, l2)
-            darker = min(l1, l2)
-
-            return (lighter + 0.05) / (darker + 0.05)
-        except (ValueError, ZeroDivisionError, TypeError):
-            # Color parsing or calculation failed, default to passing contrast
-            return 5.0
+        return calculate_contrast_ratio(fg, bg)
 
     def _generate_button_fixes(self, content: str, context: Dict) -> List[Dict]:
         """Generate fix suggestions for button accessible name"""
@@ -680,11 +651,10 @@ class ComponentAnalyzer:
         fixes = []
 
         label_text = placeholder or f"{input_type.capitalize()} input"
-        has_id = "id=" in attrs
         input_id = self._extract_attr_value(attrs, "id") or "input-id"
 
         # Option 1: label with htmlFor
-        if has_id or True:  # Always show this option
+        if True:  # Always show this option
             fixes.append(
                 {
                     "rank": 1,
