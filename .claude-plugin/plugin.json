@@ -71,19 +71,5 @@
     "./commands/setup-visual-testing.md",
     "./commands/sync-design-tokens.md",
     "./commands/analyze-usage.md"
-  ],
-  "hooks": {
-    "SessionStart": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/scripts/check-environment.sh",
-            "timeout": 30
-          }
-        ]
-      }
-    ]
-  }
+  ]
 }
