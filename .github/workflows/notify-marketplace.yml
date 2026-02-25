@@ -55,33 +55,41 @@ jobs:
           echo "📦 Triggering marketplace update for $PLUGIN_NAME"
           echo "   Version: $PREVIOUS_VERSION → $CURRENT_VERSION"
 
-          # Capture HTTP response code
-          HTTP_CODE=$(curl -X POST \
-            -w "%{http_code}" \
-            -o /tmp/response.json \
-            -H "Accept: application/vnd.github.v3+json" \
-            -H "Authorization: token ${{ secrets.MARKETPLACE_UPDATE_TOKEN }}" \
-            https://api.github.com/repos/flight505/flight505-marketplace/dispatches \
-            -d "{
-              \"event_type\": \"plugin-updated\",
-              \"client_payload\": {
-                \"plugin\": \"$PLUGIN_NAME\",
-                \"version\": \"$CURRENT_VERSION\",
-                \"previous_version\": \"$PREVIOUS_VERSION\",
-                \"commit\": \"$GITHUB_SHA\",
-                \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
-              }
-            }")
+          # Retry with exponential backoff (3 attempts: 0s, 10s, 30s)
+          for attempt in 1 2 3; do
+            HTTP_CODE=$(curl -X POST \
+              -w "%{http_code}" \
+              -o /tmp/response.json \
+              -H "Accept: application/vnd.github.v3+json" \
+              -H "Authorization: token ${{ secrets.MARKETPLACE_UPDATE_TOKEN }}" \
+              https://api.github.com/repos/flight505/flight505-marketplace/dispatches \
+              -d "{
+                \"event_type\": \"plugin-updated\",
+                \"client_payload\": {
+                  \"plugin\": \"$PLUGIN_NAME\",
+                  \"version\": \"$CURRENT_VERSION\",
+                  \"previous_version\": \"$PREVIOUS_VERSION\",
+                  \"commit\": \"$GITHUB_SHA\",
+                  \"timestamp\": \"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"
+                }
+              }")
 
-          # Check HTTP response code (204 = success for repository_dispatch)
-          if [ "$HTTP_CODE" = "204" ]; then
-            echo "✅ Marketplace notification sent successfully (HTTP $HTTP_CODE)"
-          else
-            echo "❌ Failed to notify marketplace (HTTP $HTTP_CODE)"
-            echo "Response:"
-            cat /tmp/response.json || echo "No response body"
-            exit 1
-          fi
+            if [ "$HTTP_CODE" = "204" ]; then
+              echo "✅ Marketplace notification sent successfully (HTTP $HTTP_CODE)"
+              break
+            fi
+
+            if [ "$attempt" -lt 3 ]; then
+              DELAY=$((attempt * 10))
+              echo "⚠️  Attempt $attempt failed (HTTP $HTTP_CODE), retrying in ${DELAY}s..."
+              sleep $DELAY
+            else
+              echo "❌ Failed to notify marketplace after 3 attempts (HTTP $HTTP_CODE)"
+              echo "Response:"
+              cat /tmp/response.json || echo "No response body"
+              exit 1
+            fi
+          done
 
       - name: No notification needed
         if: steps.version-check.outputs.version_changed == 'false'
