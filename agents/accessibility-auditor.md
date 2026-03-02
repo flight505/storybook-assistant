@@ -1,4 +1,6 @@
 ---
+name: accessibility-auditor
+permissionMode: default
 description: Autonomous agent that analyzes components for WCAG 2.2 accessibility violations and suggests context-aware fixes with one-click application
 whenToUse: |
   This agent should trigger automatically when:

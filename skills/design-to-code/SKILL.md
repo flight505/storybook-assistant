@@ -1,4 +1,5 @@
 ---
+name: design-to-code
 description: Use this skill when the user uploads a design screenshot, shares a Figma export, provides a mockup image, or asks to "convert design to code", "build from mockup", "generate component from screenshot", "extract design to React", or wants to transform visual designs into production-ready components using Claude's vision capabilities.
 ---
 

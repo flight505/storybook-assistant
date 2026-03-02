@@ -1,4 +1,5 @@
 ---
+name: story-generation
 description: Use this skill when the user asks to "generate stories for components", "parse component props", "detect component variants", "analyze components", "create stories automatically", mentions "component parser", "story automation", or wants to generate Storybook stories from existing component files. This skill provides intelligent component analysis and CSF 3.0 story generation with interaction tests and accessibility checks.
 ---
 

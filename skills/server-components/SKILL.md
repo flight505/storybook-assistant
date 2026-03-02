@@ -1,4 +1,5 @@
 ---
+name: server-components
 description: Use this skill when the user asks to "create server component", "add React Server Component", "use async component", "setup Next.js 15", "use React 19", "implement PPR", "add Server Actions", mentions "use server", "use client", "Suspense boundaries", or wants to build modern server-rendered components with React 19 and Next.js 15 patterns.
 ---
 

@@ -1,4 +1,5 @@
 ---
+name: natural-language-generation
 description: Use this skill when the user describes a component in natural language, says "create a component with...", "I need a card that has...", "build a form with fields for...", "generate component from description", or provides detailed component requirements in plain English. Enables non-technical stakeholders to generate production-ready components through natural language descriptions.
 ---
 

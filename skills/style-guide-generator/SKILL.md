@@ -1,4 +1,5 @@
 ---
+name: style-guide-generator
 description: Use this skill when the user asks to "generate a style guide", "create design system documentation", "document design tokens", "create a design system", "document colors and typography", mentions "design tokens", "component library documentation", or wants to create comprehensive design system documentation with Storybook. This skill provides guidance on organizing and documenting design systems, color palettes, typography scales, spacing systems, and component patterns.
 ---
 

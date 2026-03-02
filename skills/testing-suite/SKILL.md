@@ -1,4 +1,5 @@
 ---
+name: testing-suite
 description: Use this skill when the user asks to "set up testing", "configure tests for Storybook", "add interaction tests", "add accessibility tests", "set up a11y testing", "configure Vitest", "configure Playwright", mentions "play functions", "test-storybook", "component testing", or wants to add comprehensive testing to their Storybook setup. This skill provides guidance on modern Storybook 10 testing with Vitest, Playwright, and axe-core.
 ---
 

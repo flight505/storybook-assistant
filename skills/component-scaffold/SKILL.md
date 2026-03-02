@@ -1,4 +1,5 @@
 ---
+name: component-scaffold
 description: Scaffold new components with stories, tests, and documentation following SOTA patterns and best practices
 ---
 

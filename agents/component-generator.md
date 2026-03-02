@@ -1,4 +1,6 @@
 ---
+name: component-generator
+permissionMode: default
 description: Autonomous agent that generates production-ready components from natural language descriptions with TypeScript, stories, tests, and accessibility built-in
 whenToUse: |
   User provides a component description in natural language:

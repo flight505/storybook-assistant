@@ -1,4 +1,6 @@
 ---
+name: visual-regression-analyzer
+permissionMode: default
 description: Autonomous agent that analyzes visual diff screenshots using AI to categorize changes as expected design updates, warnings, or errors. Understands context from git history, design tokens, and component evolution to reduce false positives and catch real bugs.
 whenToUse: Use when visual regression tests detect differences and need intelligent analysis, when reviewing visual changes in PRs, or when investigating UI regressions reported by pixel diff tools.
 color: purple

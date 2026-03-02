@@ -1,4 +1,5 @@
 ---
+name: accessibility-remediation
 description: Use this skill when the user writes/edits components, asks to "fix accessibility issues", "add ARIA labels", "improve accessibility", "check WCAG compliance", "remediate a11y violations", mentions "screen reader support", "keyboard navigation", or wants AI-powered accessibility fixes with one-click application. Automatically analyzes components for a11y issues and suggests context-aware fixes. Trigger on PostToolUse hook or explicit request.
 ---
 

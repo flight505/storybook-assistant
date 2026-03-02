@@ -1,4 +1,5 @@
 ---
+name: platform-support
 description: Use this skill when the user asks about "Storybook with Tauri", "Storybook with Electron", "desktop app components", "Tauri IPC mocking", "Electron limitations", mentions "cross-platform development", "native APIs in Storybook", or wants to develop Storybook stories for Tauri or Electron applications. This skill provides platform-specific guidance and architectural patterns for multi-platform component development.
 ---
 

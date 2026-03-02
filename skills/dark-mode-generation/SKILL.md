@@ -1,4 +1,5 @@
 ---
+name: dark-mode-generation
 description: Use this skill when the user asks to "generate dark mode", "create dark theme", "add dark mode support", "convert to dark mode colors", "generate dark color palette", or wants to automatically generate dark mode variants for their components with intelligent color inversion and accessibility preservation.
 ---
 

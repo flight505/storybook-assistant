@@ -1,4 +1,5 @@
 ---
+name: performance-analysis
 description: Use this skill when the user asks to "analyze performance", "check bundle size", "optimize component", "analyze imports", "reduce bundle", "check for performance issues", or wants to identify and fix performance bottlenecks in their Storybook components with AI-powered suggestions.
 ---
 

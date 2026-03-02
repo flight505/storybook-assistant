@@ -1,4 +1,5 @@
 ---
+name: ci-cd-generator
 description: Use this skill when the user asks to "setup CI/CD", "configure GitHub Actions", "deploy Storybook", "setup Chromatic", "add visual regression to CI", "create deployment pipeline", or wants to generate complete CI/CD workflows for Storybook deployment and testing.
 ---
 
