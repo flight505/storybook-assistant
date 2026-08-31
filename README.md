@@ -1,3 +1,5 @@
+
+
 # 🎨 Storybook Assistant Plugin for Claude Code
 
 <div align="center">
@@ -725,7 +727,7 @@ export const AccessibilityTest: Story = {
 
 **Powered by:**
 - axe-core (industry standard)
-- WCAG 2.1 compliance
+- WCAG 2.2 compliance
 - Catches 57% of issues automatically
 
 ### Code Coverage
